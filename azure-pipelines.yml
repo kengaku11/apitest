@@ -9,6 +9,7 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+### SmartAssembly start ###
 steps:
 - task: CmdLine@2
   displayName: "Install Newman"
@@ -24,8 +25,42 @@ steps:
       Write-Host “##vso[task.setvariable variable=UserName;]*<AdministratorUserName>*”
       Write-Host “##vso[task.setvariable variable=UserPassword;]*<AdministratorUserPassword>*”
       $Env:RoleName = “administrator”
+- task: replacetokens@3
+  displayName: "Replace environment variables"
+  inputs:
+    rootDirectory: 'apitest/UAT.postman_environment.json'
+    targetFiles: '**/*.config'
+    encoding: 'auto'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    tokenPrefix: '#{'
+    tokenSuffix: '}#'
+    useLegacyPattern: false
+    enableTelemetry: true
+- task: replacetokens@3
+  displayName: "Replace test user credentials"
+  inputs:
+    rootDirectory: 'ABC'
+    targetFiles: '**/*.config'
+    encoding: 'auto'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    tokenPrefix: '*<'
+    tokenSuffix: '>*'
+    useLegacyPattern: false
+    enableTelemetry: true
+- task: CmdLine@2
+  displayName: "Run API Tests"
+  inputs:
+    script: 'newman run Tprulead.postman_collection -e UAT.postman_environment.json — reporters cli,junit — reporter-junit-export Results\junitReport.xml'
+
+- task: PublishTestResults@2
+  displayName: "Publish Test Results"
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/*.xml'
 
 
-
-### SmartAssembly start ###
 
