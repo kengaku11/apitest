@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "deae6eb2-9229-4350-99b4-e535d5314342",
+		"name": "prulead",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Gettoken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "62f9b8c6-3af2-491e-ac96-12b02a2e2327",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Get an extract access token successfully with variable 'token'!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
+							"});\r",
+							"pm.environment.set(\"token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"Prudential01\",\r\n  \"userName\": \"60000012\"\r\n}"
+				},
+				"url": {
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/authen/get-token",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"pru-lead",
+						"v1",
+						"authen",
+						"get-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetLIST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/tasks",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"pru-lead",
+						"v1",
+						"workflow",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Completedtask",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"note\": \"gioi\",\r\n  \"status\": \"yes\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://portal.prudential.com.vn/v1/workflow/tasks/41e74f41-9e58-11ea-8a69-024262e7feef",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"v1",
+						"workflow",
+						"tasks",
+						"41e74f41-9e58-11ea-8a69-024262e7feef"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
