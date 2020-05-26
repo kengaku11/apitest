@@ -28,8 +28,8 @@ steps:
 - task: replacetokens@3
   displayName: "Replace environment variables"
   inputs:
-    rootDirectory: 'apitest/UAT.postman_environment.json'
-    targetFiles: '**/*.config'
+    rootDirectory: 'apitest/'
+    targetFiles: '**/*.json'
     encoding: 'auto'
     writeBOM: true
     actionOnMissing: 'warn'
@@ -41,8 +41,8 @@ steps:
 - task: replacetokens@3
   displayName: "Replace test user credentials"
   inputs:
-    rootDirectory: 'ABC'
-    targetFiles: '**/*.config'
+    rootDirectory: 'apitest/'
+    targetFiles: '**/*.json'
     encoding: 'auto'
     writeBOM: true
     actionOnMissing: 'warn'
