@@ -61,7 +61,7 @@ steps:
   displayName: "Publish Test Results"
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/*.xml'
+    testResultsFiles: '**/*Report.xml'
     failTaskOnFailedTests: true
     testRunTitle: 'sample'
 
