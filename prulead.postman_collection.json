@@ -1,23 +1,34 @@
 {
 	"info": {
-		"_postman_id": "2ee857fb-3653-4636-9930-68cd3b132158",
+		"_postman_id": "deae6eb2-9229-4350-99b4-e535d5314342",
 		"name": "prulead",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Gettoken",
+			"name": "Login to the systemt",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "23bfadfd-82cc-425c-ab37-e8e4e41387a5",
+						"id": "62f9b8c6-3af2-491e-ac96-12b02a2e2327",
 						"exec": [
 							"var jsonData = pm.response.json();\r",
 							"pm.test(\"Get an extract access token successfully with variable 'token'!!!!!\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
 							"});\r",
-							"pm.environment.set(\"token\", jsonData.access_token);"
+							"pm.environment.set(\"token\", jsonData.access_token);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "091a0b67-594a-454e-bbe4-c5e7d95f59cb",
+						"exec": [
+							"pm.environment.set(\"username\", \"60000012\");"
 						],
 						"type": "text/javascript"
 					}
@@ -34,7 +45,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"password\": \"Prudential01\",\r\n  \"userName\": \"60000012\"\r\n}"
+					"raw": "{\r\n  \"password\": \"Prudential01\",\r\n  \"userName\": \"{{username}}\"\r\n}"
 				},
 				"url": {
 					"raw": "https://portal.prudential.com.vn/pru-lead/v1/authen/get-token",
@@ -56,7 +67,23 @@
 			"response": []
 		},
 		{
-			"name": "Completedtask",
+			"name": "Get assigned tasks list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d6a61c4a-da68-43e5-92cb-e6b0b8e672df",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Loading list sucessfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"LEADS\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -68,59 +95,10 @@
 						}
 					]
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"note\": \"gioi\",\r\n  \"status\": \"yes\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://portal.prudential.com.vn/v1/workflow/tasks/41e74f41-9e58-11ea-8a69-024262e7feef",
-					"protocol": "https",
-					"host": [
-						"portal",
-						"prudential",
-						"com",
-						"vn"
-					],
-					"path": [
-						"v1",
-						"workflow",
-						"tasks",
-						"41e74f41-9e58-11ea-8a69-024262e7feef"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Import",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{token}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"url": {
-					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/60000012/tasks",
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/{{username}}/tasks",
 					"protocol": "https",
 					"host": [
 						"portal",
@@ -132,7 +110,7 @@
 						"pru-lead",
 						"v1",
 						"workflow",
-						"60000012",
+						"{{username}}",
 						"tasks"
 					]
 				}
@@ -140,21 +118,37 @@
 			"response": []
 		},
 		{
-			"name": "Import contact from Mobilecontact",
+			"name": "Import contact from mobile",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "e9b3b4f2-12e5-4a19-9d2d-2286345cf03c",
+						"id": "3e66934f-2947-4430-b6fd-ff1e59ec7638",
 						"exec": [
 							"var jsonData = pm.response.json();\r",
-							"pm.test(\"Get an extract access token successfully with variable 'token'!!!!!\", function () {\r",
+							"pm.test(\"An lead was created successfully!!!!!\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"leadId\");\r",
 							"});\r",
-							"pm.environment.set(\"leadId\", jsonData.leadId);\r",
+							"pm.environment.set(\"leadId\", jsonData.taskInstance.leadId);\r",
 							"\r",
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);});\r",
+							"pm.test(\"Got firstname successfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"firstName\");\r",
+							"});\r",
+							"pm.environment.set(\"firstname\", jsonData.taskInstance.firstName);\r",
+							"\r",
+							"pm.test(\"Got lastname successfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"lastName\");\r",
+							"});\r",
+							"pm.environment.set(\"lastname\", jsonData.lastName);\r",
+							"pm.test(\"Got mobile successfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"phoneNumber\");\r",
+							"});\r",
+							"pm.environment.set(\"phone\", jsonData.taskInstance.phoneNumber);\r",
+							"\r",
+							"pm.test(\"Got source successfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"source\");\r",
+							"});\r",
+							"pm.environment.set(\"source\", jsonData.taskInstance.source);\r",
 							"\r",
 							""
 						],
@@ -174,16 +168,10 @@
 					]
 				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{token}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"firstName\": \"To thi\",\n  \"lastName\": \"Tèo\",\n  \"phoneNumber\": \"0123121234\",\n  \"source\": \"Zalo\"\n}",
+					"raw": "{\r\n  \"firstName\": \"Steeven\",\r\n  \"lastName\": \"Balan\",\r\n  \"phoneNumber\": \"012131212\",\r\n  \"source\": \"Zalo\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -191,7 +179,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/60000012/process-instances",
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/{{username}}/process-instances",
 					"protocol": "https",
 					"host": [
 						"portal",
@@ -203,8 +191,265 @@
 						"pru-lead",
 						"v1",
 						"workflow",
-						"60000012",
+						"{{username}}",
 						"process-instances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Draft information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46140847-4c88-4006-9255-d9e245cc5945",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Draft save successfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"status\");\r",
+							"});\r",
+							"pm.environment.set(\"status\", jsonData.status);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \r\n  \"firstName\": \"{{firstname}}\",\r\n  \"lastName\": \"{{lastname}}\",\r\n  \"phoneNumber\": \"{{phone}}\",\r\n  \"source\": \"{{source}}\",\r\n    \"status\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/{{username}}/tasks/{{leadId}}",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"pru-lead",
+						"v1",
+						"workflow",
+						"{{username}}",
+						"tasks",
+						"{{leadId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Making appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "be8d862f-5abf-4212-a4f2-36e87a207ae2",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Make appointment successfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"successed\");\r",
+							"});\r",
+							"pm.environment.set(\"status\", jsonData.status);\r",
+							"\r",
+							"pm.test(\"Get appointment ID successfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+							"});\r",
+							"pm.environment.set(\"aid\", jsonData.taskActivity.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"location\": \"HCM ne\",\r\n  \"note\": \"MAke appointment\",\r\n  \"time\": \"2020-05-28T08:02:24.880Z\",\r\n  \"title\": \"Luch\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/{{username}}/tasks/{{leadId}}/activities",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"pru-lead",
+						"v1",
+						"workflow",
+						"{{username}}",
+						"tasks",
+						"{{leadId}}",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change appointment time",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "be8d862f-5abf-4212-a4f2-36e87a207ae2",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Make appointment successfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"successed\");\r",
+							"});\r",
+							"pm.environment.set(\"statusp\", jsonData.status);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"location\": \"HCM ne\",\r\n  \"note\": \"MAke appointment\",\r\n  \"time\": \"2020-05-30T08:02:24.880Z\",\r\n  \"title\": \"Luch\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/{{username}}/tasks/{{leadId}}/activities/{{aid}}",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"pru-lead",
+						"v1",
+						"workflow",
+						"{{username}}",
+						"tasks",
+						"{{leadId}}",
+						"activities",
+						"{{aid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update result's appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "be8d862f-5abf-4212-a4f2-36e87a207ae2",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Make appointment successfully!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"successed\");\r",
+							"});\r",
+							"pm.environment.set(\"status\", jsonData.status);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/{{username}}/tasks/{{leadId}}/activities/{{aid}}/status/done",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"pru-lead",
+						"v1",
+						"workflow",
+						"{{username}}",
+						"tasks",
+						"{{leadId}}",
+						"activities",
+						"{{aid}}",
+						"status",
+						"done"
 					]
 				}
 			},
