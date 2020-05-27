@@ -56,7 +56,7 @@ steps:
   inputs:
     script: 'newman run prulead.postman_collection.json -e UAT.postman_environment.json — reporters cli,junit — reporter-junit-export Results\junitReport.xml'
     failOnStderr: true
-    workingDirectory: QA
+    workingDirectory: '$(System.DefaultWorkingDirectory)\QA'
 
 - task: PublishTestResults@2
   displayName: "Publish Test Results"
