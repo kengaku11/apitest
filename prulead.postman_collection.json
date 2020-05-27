@@ -56,7 +56,50 @@
 			"response": []
 		},
 		{
-			"name": "GetLIST",
+			"name": "Completedtask",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"note\": \"gioi\",\r\n  \"status\": \"yes\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://portal.prudential.com.vn/v1/workflow/tasks/41e74f41-9e58-11ea-8a69-024262e7feef",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"v1",
+						"workflow",
+						"tasks",
+						"41e74f41-9e58-11ea-8a69-024262e7feef"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -97,7 +140,28 @@
 			"response": []
 		},
 		{
-			"name": "Completedtask",
+			"name": "Import contact from Mobilecontact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e9b3b4f2-12e5-4a19-9d2d-2286345cf03c",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Get an extract access token successfully with variable 'token'!!!!!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"leadId\");\r",
+							"});\r",
+							"pm.environment.set(\"leadId\", jsonData.leadId);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -110,10 +174,16 @@
 					]
 				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"note\": \"gioi\",\r\n  \"status\": \"yes\"\r\n}",
+					"raw": "{\n  \"firstName\": \"To thi\",\n  \"lastName\": \"Tèo\",\n  \"phoneNumber\": \"0123121234\",\n  \"source\": \"Zalo\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -121,7 +191,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://portal.prudential.com.vn/v1/workflow/tasks/41e74f41-9e58-11ea-8a69-024262e7feef",
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/60000012/process-instances",
 					"protocol": "https",
 					"host": [
 						"portal",
@@ -130,10 +200,11 @@
 						"vn"
 					],
 					"path": [
+						"pru-lead",
 						"v1",
 						"workflow",
-						"tasks",
-						"41e74f41-9e58-11ea-8a69-024262e7feef"
+						"60000012",
+						"process-instances"
 					]
 				}
 			},
