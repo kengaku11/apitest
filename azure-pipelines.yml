@@ -61,7 +61,6 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/result-*.xml'
-    searchFolder: '$(System.DefaultWorkingDirectory)/*.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
     testRunTitle: 'sample'
