@@ -62,7 +62,7 @@ steps:
   displayName: "Publish Test Results"
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '$(System.DefaultWorkingDirectory)/Results/*.xml'
+    testResultsFiles: '**/Results/junitReport.xml'
     failTaskOnFailedTests: true
     testRunTitle: 'sample'
 
