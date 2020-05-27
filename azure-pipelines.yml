@@ -61,7 +61,8 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/TEST-*.xml'
-    searchFolder: $(System.DefaultWorkingDirectory)
+    searchFolder: '$(System.DefaultWorkingDirectory)\Results\*.xml'
+    mergeTestResults: true
 
 
 
