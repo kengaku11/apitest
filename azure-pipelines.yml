@@ -55,7 +55,6 @@ steps:
   displayName: "Run API Tests"
   inputs:
     script: 'newman run prulead.postman_collection.json -e UAT.postman_environment.json — reporters cli,junit — reporter-junit-export Results/junitReport.xml'
-    workingDirectory: '...'
     failOnStderr: true
 
 - task: PublishTestResults@2
