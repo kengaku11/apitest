@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "deae6eb2-9229-4350-99b4-e535d5314342",
+		"_postman_id": "2c273851-0c07-1c63-7bb6-8a915b101259",
 		"name": "prulead",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,13 +11,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "62f9b8c6-3af2-491e-ac96-12b02a2e2327",
+						"id": "9badd7a9-7982-4617-b1d6-da9082c200f2",
 						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"pm.test(\"Get an extract access token successfully with variable 'token'!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
-							"});\r",
-							"pm.environment.set(\"token\", jsonData.access_token);\r",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Login to the system\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"access_token\");",
+							"});",
+							"pm.environment.set(\"token\", jsonData.access_token);",
 							""
 						],
 						"type": "text/javascript"
@@ -39,8 +39,7 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
+						"value": "application/json"
 					}
 				],
 				"body": {
@@ -72,13 +71,12 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d6a61c4a-da68-43e5-92cb-e6b0b8e672df",
+						"id": "abc46866-f4d7-4b28-b771-c6e20d9eb46b",
 						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"pm.test(\"Loading list sucessfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"LEADS\");\r",
-							"});\r",
-							""
+							"var jsonData = pm.response.json();",
+							"pm.test(\"View Prospects List\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"LEADS\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -123,33 +121,34 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3e66934f-2947-4430-b6fd-ff1e59ec7638",
+						"id": "0a6a5e9e-8168-4f45-88f0-dd199c7c8233",
 						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"pm.test(\"An lead was created successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"leadId\");\r",
-							"});\r",
-							"pm.environment.set(\"leadId\", jsonData.taskInstance.leadId);\r",
-							"\r",
-							"pm.test(\"Got firstname successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"firstName\");\r",
-							"});\r",
-							"pm.environment.set(\"firstname\", jsonData.taskInstance.firstName);\r",
-							"\r",
-							"pm.test(\"Got lastname successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"lastName\");\r",
-							"});\r",
-							"pm.environment.set(\"lastname\", jsonData.lastName);\r",
-							"pm.test(\"Got mobile successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"phoneNumber\");\r",
-							"});\r",
-							"pm.environment.set(\"phone\", jsonData.taskInstance.phoneNumber);\r",
-							"\r",
-							"pm.test(\"Got source successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"source\");\r",
-							"});\r",
-							"pm.environment.set(\"source\", jsonData.taskInstance.source);\r",
-							"\r",
+							"var jsonData = pm.response.json();",
+							"",
+							"",
+							"pm.test(\"Import firstname successfully\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"firstName\");",
+							"});",
+							"pm.environment.set(\"firstname\", jsonData.taskInstance.firstName);",
+							"",
+							"pm.test(\"Import lastname successfully\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"lastName\");",
+							"});",
+							"pm.environment.set(\"lastname\", jsonData.lastName);",
+							"pm.test(\"Import mobile successfully\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"phoneNumber\");",
+							"});",
+							"pm.environment.set(\"phone\", jsonData.taskInstance.phoneNumber);",
+							"",
+							"pm.test(\"Import above information from Zalo contact\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"source\");",
+							"});",
+							"pm.environment.set(\"source\", jsonData.taskInstance.source);",
+							"pm.test(\"New lead has been created successfully!\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"leadId\");",
+							"});",
+							"pm.environment.set(\"leadId\", jsonData.taskInstance.leadId);",
+							"",
 							""
 						],
 						"type": "text/javascript"
@@ -204,12 +203,12 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "46140847-4c88-4006-9255-d9e245cc5945",
+						"id": "83cab267-b3d4-4f6a-b304-b8aaa8298b37",
 						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"pm.test(\"Draft save successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"status\");\r",
-							"});\r",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Save temporary successfully!\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"status\");",
+							"});",
 							"pm.environment.set(\"status\", jsonData.status);"
 						],
 						"type": "text/javascript"
@@ -265,17 +264,17 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "be8d862f-5abf-4212-a4f2-36e87a207ae2",
+						"id": "cb1ad40e-dbae-4209-97d4-ed6a912b96df",
 						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"pm.test(\"Make appointment successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"successed\");\r",
-							"});\r",
-							"pm.environment.set(\"status\", jsonData.status);\r",
-							"\r",
-							"pm.test(\"Get appointment ID successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"id\");\r",
-							"});\r",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Make appointment successfully\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"successed\");",
+							"});",
+							"pm.environment.set(\"status\", jsonData.status);",
+							"",
+							"pm.test(\"Get appointment ID successfully!\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"id\");",
+							"});",
 							"pm.environment.set(\"aid\", jsonData.taskActivity.id);"
 						],
 						"type": "text/javascript"
@@ -332,13 +331,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "be8d862f-5abf-4212-a4f2-36e87a207ae2",
+						"id": "d61d287a-652a-4a69-a27c-b947663affb5",
 						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"pm.test(\"Make appointment successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"successed\");\r",
-							"});\r",
-							"pm.environment.set(\"statusp\", jsonData.status);\r",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Remake appointment successfully!\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"successed\");",
+							"});",
+							"pm.environment.set(\"statusp\", jsonData.status);",
 							""
 						],
 						"type": "text/javascript"
@@ -360,7 +359,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"location\": \"HCM ne\",\r\n  \"note\": \"MAke appointment\",\r\n  \"time\": \"2020-05-30T08:02:24.880Z\",\r\n  \"title\": \"Luch\"\r\n}",
+					"raw": "{\r\n  \"location\": \"HCM ne\",\r\n  \"note\": \"MAke appointment\",\r\n  \"time\": \"2020-05-30T08:02:24.880+0000\",\r\n  \"title\": \"Change Luch Time\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -396,12 +395,12 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "be8d862f-5abf-4212-a4f2-36e87a207ae2",
+						"id": "e3ed4135-9bdf-416b-bb72-6ba6d68c89d1",
 						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"pm.test(\"Make appointment successfully!!!!!\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"successed\");\r",
-							"});\r",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Update appointment successfully!\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"successed\");",
+							"});",
 							"pm.environment.set(\"status\", jsonData.status);"
 						],
 						"type": "text/javascript"
@@ -421,15 +420,6 @@
 				},
 				"method": "PUT",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/{{username}}/tasks/{{leadId}}/activities/{{aid}}/status/done",
 					"protocol": "https",
