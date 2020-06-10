@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2c273851-0c07-1c63-7bb6-8a915b101259",
+		"_postman_id": "1ed9e62d-3d08-4e1f-acc5-20a37230a8bc",
 		"name": "prulead",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9badd7a9-7982-4617-b1d6-da9082c200f2",
+						"id": "6d7f835f-b225-41a6-aac2-dac6fee08700",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Login to the system\", function () {",
@@ -26,7 +26,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "091a0b67-594a-454e-bbe4-c5e7d95f59cb",
+						"id": "7f8d0764-0cc0-475b-a8ee-d231cae69aca",
 						"exec": [
 							"pm.environment.set(\"username\", \"60000012\");"
 						],
@@ -71,7 +71,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "abc46866-f4d7-4b28-b771-c6e20d9eb46b",
+						"id": "28fa6ca2-51ec-4635-a92e-200e9ff02916",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"View Prospects List\", function () {",
@@ -121,7 +121,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0a6a5e9e-8168-4f45-88f0-dd199c7c8233",
+						"id": "f9c34719-3df0-4863-b5f0-eee3ec4d6de3",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"",
@@ -203,7 +203,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "83cab267-b3d4-4f6a-b304-b8aaa8298b37",
+						"id": "787b7705-2020-4db7-ac74-7af7b02bc2f3",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Save temporary successfully!\", function () {",
@@ -264,7 +264,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "cb1ad40e-dbae-4209-97d4-ed6a912b96df",
+						"id": "4fddb4d7-18fb-4f0c-8a69-e225058058f6",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Make appointment successfully\", function () {",
@@ -296,7 +296,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"location\": \"HCM ne\",\r\n  \"note\": \"MAke appointment\",\r\n  \"time\": \"2020-05-28T08:02:24.880Z\",\r\n  \"title\": \"Luch\"\r\n}",
+					"raw": "{\r\n  \"location\": \"HCM ne\",\r\n  \"note\": \"MAke appointment\",\r\n  \"time\": \"2020-05-28T08:02:24.880Z\",\r\n  \"title\": \"Luch Time for customer\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -331,7 +331,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d61d287a-652a-4a69-a27c-b947663affb5",
+						"id": "e2472179-89a9-432a-9ad0-2002a0c1e4e3",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Remake appointment successfully!\", function () {",
@@ -395,7 +395,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e3ed4135-9bdf-416b-bb72-6ba6d68c89d1",
+						"id": "cf6f58ac-1040-4dd1-890e-8dab4c85fa36",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Update appointment successfully!\", function () {",
@@ -440,6 +440,140 @@
 						"{{aid}}",
 						"status",
 						"done"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Making appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4fddb4d7-18fb-4f0c-8a69-e225058058f6",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Make appointment successfully\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"successed\");",
+							"});",
+							"pm.environment.set(\"status\", jsonData.status);",
+							"",
+							"pm.test(\"Get appointment ID successfully!\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"id\");",
+							"});",
+							"pm.environment.set(\"aid\", jsonData.taskActivity.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"location\": \"HCM ne\",\r\n  \"note\": \"MAke appointment\",\r\n  \"time\": \"2020-05-28T08:02:24.880Z\",\r\n  \"title\": \"Luch Time for customer!!!!!!!!!!!!!!!!!!!!!!!!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/{{username}}/tasks/{{leadId}}/activities",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"pru-lead",
+						"v1",
+						"workflow",
+						"{{username}}",
+						"tasks",
+						"{{leadId}}",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Making appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4fddb4d7-18fb-4f0c-8a69-e225058058f6",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Make appointment successfully\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"successed\");",
+							"});",
+							"pm.environment.set(\"status\", jsonData.status);",
+							"",
+							"pm.test(\"Get appointment ID successfully!\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"id\");",
+							"});",
+							"pm.environment.set(\"aid\", jsonData.taskActivity.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"location\": \"HCM ne\",\r\n  \"note\": \"MAke appointment\",\r\n  \"time\": \"2020-05-28T08:02:24.880Z\",\r\n  \"title\": \"Luch Time for customer!!!!!!!!!!!!!!!!!!!!!!!!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://portal.prudential.com.vn/pru-lead/v1/workflow/{{username}}/tasks/{{leadId}}/activities",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"prudential",
+						"com",
+						"vn"
+					],
+					"path": [
+						"pru-lead",
+						"v1",
+						"workflow",
+						"{{username}}",
+						"tasks",
+						"{{leadId}}",
+						"activities"
 					]
 				}
 			},
